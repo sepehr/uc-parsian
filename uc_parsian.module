@@ -128,7 +128,14 @@ function uc_payment_method_parsian($op, &$arg1) {
  * Alters the "action" attribute of the order review form.
  */
 function uc_parsian_form_alter(&$form, &$form_state, $form_id) {
-  
+  $order_id = intval($_SESSION['cart_order']);
+  if ($form_id == 'uc_cart_checkout_review_form' && $order_id > 0) {
+    $order = uc_order_load($order_id);
+        
+    if ($order->payment_method == 'parsian') {
+      $form['#action'] = url('cart/parsian/request');
+    }
+  }
 }
 
 /**
