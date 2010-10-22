@@ -3,7 +3,7 @@
 
 /**
  * @file
- * Ubercart Parsian payment menu callbacks and their helper functions.
+ * Ubercart Parsian payment menu callbacks.
  */
 
 /**
