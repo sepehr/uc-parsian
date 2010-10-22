@@ -17,7 +17,25 @@ function uc_parsian_init() {
  * Implementation of hook_menu().
  */
 function uc_parsian_menu() {
+  $items = array();
   
+  $items['cart/parsian/request'] = array(
+    'title' => 'Order payment request',
+    'page callback' => 'uc_parsian_callback_request',
+    'access callback' => 'uc_parsian_callback_request_access',    
+    'file' => 'uc_parsian.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+  
+  $items['cart/parsian/complete'] = array(
+    'title' => 'Order payment complete',
+    'page callback' => 'uc_parsian_callback_complete',
+    'access callback' => 'uc_parsian_callback_complete_access',    
+    'file' => 'uc_parsian.pages.inc',
+    'type' => MENU_CALLBACK,
+  );
+  
+  return $items;
 }
 
 /**
@@ -64,5 +82,19 @@ function uc_parsian_cron() {
  */
 function uc_parsian_ucga_display() {
   
+}
+
+/**
+ * Order payment request page access callback.
+ */
+function uc_parsian_callback_complete_access() {
+  return TRUE;
+}
+
+/**
+ * Order payment completion page access callback.
+ */
+function uc_parsian_callback_request_access() {
+  return TRUE;
 }
 
