@@ -46,7 +46,7 @@ function uc_parsian_menu() {
  */
 function uc_parsian_payment_method() {
   global $base_url;
-  $logo = $base_url . '/' . drupal_get_path('module', 'uc_parsian') . '/uc_parsian.gif';
+  $logo = $base_url . '/' . drupal_get_path('module', 'uc_parsian') . '/uc_parsian.png';
 
   $methods[] = array(
     'id' => 'parsian',
