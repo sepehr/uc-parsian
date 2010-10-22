@@ -154,8 +154,8 @@ function uc_parsian_cron() {
 /**
  * Implementation of hook_ucga_display().
  *
- * Ubercart Google Analytics to display the e-commerce JS 
- * on the custom order completion page.
+ * Ubercart Google Analytics to display 
+ * the e-commerce JS on the order completion page.
  */
 function uc_parsian_ucga_display() {
   if (arg(0) == 'cart' && arg(1) == 'parsian' && arg(2) == 'complete') {
