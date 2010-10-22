@@ -67,7 +67,59 @@ function uc_parsian_payment_method() {
  * @see uc_parsian_payment_method()
  */
 function uc_payment_method_parsian($op, &$arg1) {
-  
+  switch ($op) {
+    case 'settings':
+      $form = array();
+      
+      $form['uc_parsian_auth_pin'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Parsian Authentication Pin'),
+        '#description' => t('Enter your authentication key which has been bundled with your server IP address by Parsian Bank.'),
+        '#default_value' => variable_get('uc_parsian_auth_pin', ''),
+        '#required' => TRUE,
+      );
+      
+      $form['uc_parsian_gateway'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Parsian Gateway Address'),
+        '#description' => t('Do not change the default value unless you checked that Parsian technical documentation.'),
+        '#default_value' => variable_get('uc_parsian_gateway', 'https://www.pec24.com/pecpaymentgateway/'),
+        '#required' => TRUE,
+      );
+      
+      $form['uc_parsian_soap_server'] = array(
+        '#type' => 'textfield',
+        '#title' => t('Parsian SOAP Server Endpoint'),
+        '#description' => t('Do not change this, too. Unless you check that technical documentation.'),
+        '#default_value' => variable_get('uc_parsian_soap_server', 'https://www.pec24.com/pecpaymentgateway/eshopservice.asmx?wsdl'),
+        '#required' => TRUE,
+      );
+      
+      $form['uc_parsian_additional_options'] = array(
+        '#type' => 'fieldset',
+        '#title' => t('Additional Options'),
+        '#collapsible' => TRUE,
+        '#collapsed' => TRUE,
+      );            
+      
+      $form['uc_parsian_additional_options']['uc_parsian_watchdog_log'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Log payment process errors to Watchdog.'),
+        '#description' => t('If checked, all errors will be logged into Watchdog during the payment process.'),
+        '#default_value' => variable_get('uc_parsian_watchdog_log', 1),
+        '#return_value' => TRUE,
+      );            
+      
+      $form['uc_parsian_additional_options']['uc_parsian_cron_purge'] = array(
+        '#type' => 'checkbox',
+        '#title' => t('Purge failed payment authority codes periodically.'),
+        '#description' => t('Authority codes of all successfull and failed Parsian payments will be collected. Check this to purge failed ones periodically using Cron.'),
+        '#default_value' => variable_get('uc_parsian_cron_purge', 1),
+        '#return_value' => TRUE,
+      );
+      
+      return $form;
+  }
 }
 
 /**
