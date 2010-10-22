@@ -44,7 +44,21 @@ function uc_parsian_menu() {
  * @see uc_payment_method_parsian()
  */
 function uc_parsian_payment_method() {
+  global $base_url;
+  $logo = $base_url . '/' . drupal_get_path('module', 'uc_parsian') . '/uc_parsian.gif';
+
+  $methods[] = array(
+    'id' => 'parsian',
+    'name' => t('Parsian Bank'),
+    'title' => theme('image', $logo, '', t('Pay via Parsian Bank'), array('height' => 25, 'width' => 25), FALSE) . t('Parsian Bank'),
+    'desc' => t('Redirect to Parsian bank to pay by your debit card.'),
+    'callback' => 'uc_payment_method_parsian',
+    'weight' => 1,
+    'checkout' => TRUE,
+    'no_gateway' => TRUE,
+  );
   
+  return $methods;
 }
 
 /**
