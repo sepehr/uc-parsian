@@ -8,11 +8,11 @@ website to process its online payments through the [Parsian Bank](http://parsian
 
 Requirements
 ============
-1. A valid PIN number.
-2. A registered IP address.
+1. A valid PIN number provided by Parsian Bank.
+2. A registered IP address on Parsian Bank database.
 
-So, you need to have a valid PIN number provided by Parsian Bank and also a registered IP Address on their gateway to be 
-able to process you website payments via Parsian bank online payment gateway. If these requirements are not satisfied, expect to get a "22 Error Code".
+So, you need to have a valid PIN number provided by Parsian Bank and also a registered IP Address on their gateway to be able to process you website payments via Parsian bank online payment gateway.
+If these requirements are not satisfied, expect to get a "22 Error Code".
 
 
 Dependencies
