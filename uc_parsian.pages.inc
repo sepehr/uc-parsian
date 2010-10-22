@@ -291,3 +291,4 @@ function _uc_parsian_error_translate($code) {
       return $code . ' - ' . t('Unknown status code. Refer to your technical documentation or contact Parsian bank support.');
   }
 }
+
