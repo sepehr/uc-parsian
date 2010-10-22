@@ -1,0 +1,9 @@
+; $Id$
+name = Parsian Bank
+description = Process payments using Parsian Bank gateway.
+version = 6.x-2.x-1.0-dev
+
+core = 6.x
+package = "Ubercart - payment"
+dependencies[] = uc_payment
+dependencies[] = soapclient

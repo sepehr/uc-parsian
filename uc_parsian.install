@@ -1,0 +1,76 @@
+<?php
+// $Id$
+
+/**
+ * @file
+ * Ubercart Parsian payment un/installation hooks.
+ */
+
+/**
+ * Implementation of hook_schema().
+ */
+function uc_parsian_schema() {
+  $schema = array();
+  
+  $schema['uc_payment_parsian'] = array(
+    'description' => t('Table for storing Parsian payment authorities.'),
+    'fields' => array(
+      'oid' => array(
+        'description' => t('Order identifier.'),
+        'type' => 'int',
+        'length' => 10,
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'authority' => array(
+        'description' => t('Payment authority code.'),
+        'type' => 'varchar',
+        'length' => 31,
+        'not null' => TRUE,
+      ),
+      'created' => array(
+        'description' => t('Authority record timestamp.'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'status' => array(
+        'description' => t('Payment failed or not.'),
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+    ),
+    'indexes' => array(
+      'oid_authority' => array('oid', 'authority'),
+    ),
+  );
+  
+  return $schema;
+}
+
+/**
+ * Implementation of hook_install().
+ */
+function uc_parsian_install() {
+  drupal_install_schema('uc_parsian');
+  drupal_set_message(st('Ubercart Parsian payment has been installed. Please set your settings in !link.',
+    array(
+      '!link' => l(st('configuration page'), 'admin/store/settings/payment/edit/methods'),
+    )
+  ));
+}
+
+
+/**
+ * Implementation of hook_uninstall().
+ */
+function uc_parsian_uninstall() {
+  drupal_uninstall_schema('uc_parsian');
+  variable_del('uc_parsian_gateway');
+  variable_del('uc_parsian_auth_pin');
+  variable_del('uc_parsian_soap_server');
+  variable_del('uc_parsian_watchdog_log');
+  variable_del('uc_parsian_cron_purge');
+}
