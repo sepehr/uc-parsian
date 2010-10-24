@@ -17,9 +17,9 @@ If these requirements are not satisfied, expect to get a "22 Error Code".
 
 Dependencies
 ============
-- [SOAP Client](http://drupal.org/project/soapclient)
 - [Ubercart 2.x](http://drupal.org/project/ubercart) and its uc_payment.
-
+- [SOAP Client](http://drupal.org/project/soapclient)
+  - Note: nuSOAP library's `$soap_defencoding` value is not important for uc_parsian, It works with both 'UTF-8' and 'ISO-8859-1'.
 
 Installation
 ============
