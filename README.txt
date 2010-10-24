@@ -31,7 +31,7 @@ Installation
   - Under "Active SOAP Library" check the "nuSOAP" option.
   - Leave other options as default.
   
-3. Install and enable [Ubercart Parsian Payment](http://drupal.org/project/soapclient)
+3. Install and enable [Ubercart Parsian Payment](http://drupal.org/project/uc_parsian)
   - Go to admin/store/settings/payment/edit/methods.
   - Check "Parsian Bank" under "Payment methods" block.
   - Click on "Parsian Bank settings" and fill the "Parsian Authentication PIN" field with the PIN number provided by Parsian Bank.
