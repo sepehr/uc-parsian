@@ -13,29 +13,29 @@ function uc_parsian_schema() {
   $schema = array();
   
   $schema['uc_payment_parsian'] = array(
-    'description' => t('Table for storing Parsian payment authorities.'),
+    'description' => 'Table for storing Parsian payment authorities.',
     'fields' => array(
       'oid' => array(
-        'description' => t('Order identifier.'),
+        'description' => 'Order identifier.',
         'type' => 'int',
         'length' => 10,
         'unsigned' => TRUE,
         'not null' => TRUE,
       ),
       'authority' => array(
-        'description' => t('Payment authority code.'),
+        'description' => 'Payment authority code.',
         'type' => 'varchar',
         'length' => 31,
         'not null' => TRUE,
       ),
       'created' => array(
-        'description' => t('Authority record timestamp.'),
+        'description' => 'Authority record timestamp.',
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
       ),
       'status' => array(
-        'description' => t('Payment failed or not.'),
+        'description' => 'Payment failed or not.',
         'type' => 'int',
         'unsigned' => TRUE,
         'not null' => TRUE,
