@@ -244,7 +244,7 @@ function _uc_parsian_soap_call($soap_method, $soap_params, $soap_options = NULL)
  *   Set to FALSE to disable redirection.
  */
 function _uc_parsian_log_error($message, $variables = array(), $redirect = 'cart/checkout') {
-  global $_uc_parsian_watchdog_log;
+  $watchdog_log = variable_get('uc_parsian_watchdog_log', TRUE);
   
   // Sanitize variables.
   if (!empty($variables)) {
@@ -255,7 +255,7 @@ function _uc_parsian_log_error($message, $variables = array(), $redirect = 'cart
   drupal_set_message(t($message, $variables), 'error');
   
   // Log to Watchdog if configured so.
-  if ($_uc_parsian_watchdog_log) {
+  if ($watchdog_log) {
     watchdog('uc_parsian', $message, $variables, WATCHDOG_ERROR);
   }
   

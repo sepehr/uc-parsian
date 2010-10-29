@@ -7,14 +7,6 @@
  */
 
 /**
- * Implementation of hook_init().
- */
-function uc_parsian_init() {
-  // Load uc_parsian's watchdog config globally to prevent extra db lookups.
-  $GLOBALS['_uc_parsian_watchdog_log'] = variable_get('uc_parsian_watchdog_log', TRUE);
-}
-
-/**
  * Implementation of hook_menu().
  */
 function uc_parsian_menu() {

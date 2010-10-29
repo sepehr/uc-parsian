@@ -55,9 +55,9 @@ function uc_parsian_schema() {
  */
 function uc_parsian_install() {
   drupal_install_schema('uc_parsian');
-  drupal_set_message(st('Ubercart Parsian payment has been installed. Please set your settings in !link.',
+  drupal_set_message(st('Ubercart Parsian payment has been installed. Please set your settings in <a href="!link">configuration page</a>.',
     array(
-      '!link' => l(st('configuration page'), 'admin/store/settings/payment/edit/methods'),
+      '!link' => url('admin/store/settings/payment/edit/methods'),
     )
   ));
 }

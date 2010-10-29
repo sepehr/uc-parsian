@@ -9,10 +9,9 @@ website to process its online payments through the [Parsian Bank](http://parsian
 Requirements
 ============
 1. A valid PIN number provided by Parsian Bank.
-2. A registered IP address on Parsian Bank database.
+2. A registered IP address on Parsian Bank databases.
 
-So, you need to have a valid PIN number provided by Parsian Bank and also a registered IP Address on their gateway to be able to process you website payments via Parsian bank online payment gateway.
-If these requirements are not satisfied, expect to get a "22 Error Code".
+You need to have a valid PIN number provided by Parsian Bank and also a registered IP Address on their gateway to be able to process you website payments via Parsian bank online payment gateway. If these requirements are not satisfied, expect to get a "22 Error Code".
 
 
 Dependencies
@@ -35,9 +34,9 @@ Installation
   - Go to admin/store/settings/payment/edit/methods.
   - Check "Parsian Bank" under "Payment methods" block.
   - Click on "Parsian Bank settings" and fill the "Parsian Authentication PIN" field with the PIN number provided by Parsian Bank.
-  - Leave others as default and save the configuration.
+  - Leave other fields as default and save the configuration.
 
 
 Author and Maintainer
 =====================
-sepehr (Sepehr Lajevardi)
+Sepehr Lajevardi
