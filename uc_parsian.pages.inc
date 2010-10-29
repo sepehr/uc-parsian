@@ -28,7 +28,9 @@ function uc_parsian_callback_request() {
   
   // Checking SOAP call errors.
   if ($soap_results['#error'] !== FALSE || empty($soap_results['#return']['authority']) || $soap_results['#return']['status'] != 0) {
-    _uc_parsian_log_error('Could not request pin payment. Status: @code', array('@code' => _uc_parsian_error_translate($soap_results['#return']['status'])));
+    _uc_parsian_log_error(t('Could not request pin payment. Status: @code',
+      array('@code' => _uc_parsian_error_translate($soap_results['#return']['status']),)
+    ));
   }
   
   // Saving SOAP results, redirecting to Parsian Payment gateway.
@@ -56,7 +58,7 @@ function uc_parsian_callback_complete($cart_id = 0) {
   
   // Checking authority/status availability and validatability.
   if (!isset($status, $authority) || !_uc_parsian_authority_verify($authority)) {
-    _uc_parsian_log_error('Could not recieve valid authorities and status codes from Parsian bank. Operation cancelled.');
+    _uc_parsian_log_error(t('Could not recieve valid authorities and status codes from Parsian bank. Operation cancelled.'));
   }
   
   // When an order status is not in "in_checkout" state,
@@ -66,7 +68,7 @@ function uc_parsian_callback_complete($cart_id = 0) {
     // Delete the orphan failed authority record.
     _uc_parsian_authority_delete($authority);
     
-    _uc_parsian_log_error('The order status is not in checkout. You are not authorized to checkout this order.');
+    _uc_parsian_log_error(t('The order status is not in checkout. You are not authorized to checkout this order.'));
   }
     
   // Parsian payment enquiry.
@@ -82,7 +84,9 @@ function uc_parsian_callback_complete($cart_id = 0) {
     // Delete the orphan failed authority record.
     _uc_parsian_authority_delete($authority);
       
-    _uc_parsian_log_error('Could not validate your payment, Enquiry failed. Status: @code', array('@code' => _uc_parsian_error_translate($soap_results['#return']['status'])));
+    _uc_parsian_log_error(t('Could not validate your payment, Enquiry failed. Status: @code',
+      array('@code' => _uc_parsian_error_translate($soap_results['#return']['status']),)
+    ));
   }
   
   // If we're here, the customer's payment was successfull. Finalizing..
@@ -226,7 +230,7 @@ function _uc_parsian_soap_call($soap_method, $soap_params, $soap_options = NULL)
 
   // Checking instantiation errors.
   if (!empty($soap_client['#error'])) {
-    _uc_parsian_log_error('Could not connect to Parsian webservice.');
+    _uc_parsian_log_error(t('Could not connect to Parsian webservice.'));
   }
   
   return $soap_client['#return']->call($soap_method, $soap_params);
@@ -237,26 +241,19 @@ function _uc_parsian_soap_call($soap_method, $soap_params, $soap_options = NULL)
  *
  * @param $message
  *   Error message to be logged.
- * @param $variables
- *   Array to be placed on placeholders in $message.
  * @param $redirect
  *   Drupal path to redirect to after error logging.
  *   Set to FALSE to disable redirection.
  */
-function _uc_parsian_log_error($message, $variables = array(), $redirect = 'cart/checkout') {
+function _uc_parsian_log_error($message, $redirect = 'cart/checkout') {
   $watchdog_log = variable_get('uc_parsian_watchdog_log', TRUE);
   
-  // Sanitize variables.
-  if (!empty($variables)) {
-    $variables = array_map('check_plain', $variables);
-  }
-  
   // Display error to the end user.
-  drupal_set_message(t($message, $variables), 'error');
+  drupal_set_message($message, 'error');
   
   // Log to Watchdog if configured so.
   if ($watchdog_log) {
-    watchdog('uc_parsian', $message, $variables, WATCHDOG_ERROR);
+    watchdog('uc_parsian', $message, array(), WATCHDOG_ERROR);
   }
   
   // Redirect if necessary.
