@@ -1,0 +1,152 @@
+# $Id$
+#
+# Persian translation of Drupal (general)
+# Copyright 2010 <me@sepehr.ws>
+# Generated from files:
+#  uc_parsian.pages.inc: n/a
+#  uc_parsian.module: n/a
+#  uc_parsian.info: n/a
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Ubercart Parsian Payment\n"
+"POT-Creation-Date: 2010-10-29 22:35+0000\n"
+"PO-Revision-Date: 2010-10-30 02:33+0330\n"
+"Last-Translator: Sepehr Lajevardi <me@sepehr.ws>\n"
+"Language-Team: Sepehr Lajevardi <me@sepehr.ws>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: Persian\n"
+"X-Poedit-Country: IRAN, ISLAMIC REPUBLIC OF\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+#: uc_parsian.pages.inc:31
+msgid "Could not request pin payment. Status: @code"
+msgstr "دریافت اطلاعات پرداخت از بانک پارسیان امکان پذیر نیست. وضعیت: @code"
+
+#: uc_parsian.pages.inc:61
+msgid "Could not recieve valid authorities and status codes from Parsian bank. Operation cancelled."
+msgstr "امکان دریافت وضعیت پرداخت از بانک پارسیان موجود نیست. عملیات لغو شد."
+
+#: uc_parsian.pages.inc:71
+msgid "The order status is not in checkout. You are not authorized to checkout this order."
+msgstr "وضعیت سفارش شما قابل پرداخت نیست. شما اجازه لازم برای تصفیه حساب این سفارش را ندارید."
+
+#: uc_parsian.pages.inc:87
+msgid "Could not validate your payment, Enquiry failed. Status: @code"
+msgstr "امکان معتبرسازی فرآیند پرداخت نیست. وضعیت: @code"
+
+#: uc_parsian.pages.inc:111
+msgid "Total amount of !amount has been successfully paid via !method by the customer. Payment transaction number is !authority."
+msgstr "سرجمع هزینه !amount با استفاده از روش !method به صورت موفقیت آمیز پرداخت شد. شماره تراکنش پرداخت شما: !authority"
+
+#: uc_parsian.pages.inc:129
+msgid "The price has been successfully paid for this order."
+msgstr "هزینه مورد نظر بابت این سفارش به صورت موفقیت آمیز پرداخت شد."
+
+#: uc_parsian.pages.inc:135
+msgid "Your Parsian bank payment transaction number is !authority."
+msgstr "شماره تراکنش پرداخت شما از طریق بانک پارسیان: !authority"
+
+#: uc_parsian.pages.inc:233
+msgid "Could not connect to Parsian webservice."
+msgstr "امکان اتصال به سرویس بانک پارسیان موجود نیست."
+
+#: uc_parsian.pages.inc:279
+msgid "Invalid PIN or IP."
+msgstr "پین یا IP آدرس غیر معتبر."
+
+#: uc_parsian.pages.inc:282
+msgid "The operation has been done previously."
+msgstr "عملیات پیش از این با موفقیت انجام گرفته است."
+
+#: uc_parsian.pages.inc:285
+msgid "Invalid transaction number."
+msgstr "شماره تراکنش غیرمعتبر."
+
+#: uc_parsian.pages.inc:288
+msgid "Unknown status code. Refer to your technical documentation or contact Parsian bank support."
+msgstr "کد وضعیت ناشناخته. لطفا به مستندات تکنیکی پرداخت پارسیان مراجعه یا با پشتیبانی تماس حاصل فرمایید."
+
+#: uc_parsian.module:45;46
+#: uc_parsian.info:0
+msgid "Parsian Bank"
+msgstr "بانک پارسیان"
+
+#: uc_parsian.module:46
+msgid "Pay via Parsian Bank"
+msgstr "پرداخت از طریق بانک پارسیان"
+
+#: uc_parsian.module:47
+msgid "Redirect to Parsian bank to pay by your debit card."
+msgstr "انتقال به بانک پارسیان به منظور پرداخت با استفاده از کارت نقدی شما."
+
+#: uc_parsian.module:69
+msgid "Parsian Authentication Pin"
+msgstr "پین معتبرسازی پارسیان"
+
+#: uc_parsian.module:70
+msgid "Enter your authentication key which has been bundled with your server IP address by Parsian Bank."
+msgstr "پین معتبرسازی‌ای که با IP آدرس سرور شما توسط بانک پارسیان ثبت شده است را، وارد فرمایید."
+
+#: uc_parsian.module:77
+msgid "Parsian Gateway Address"
+msgstr "آدرس دروازه پرداخت بانک پارسیان"
+
+#: uc_parsian.module:78
+msgid "Do not change the default value unless you checked that Parsian technical documentation."
+msgstr "لطفا مقدار پیش‌فرض را تغییر ندهید، مگر اینکه این آدرس با آدرسی که در مستندات بانک پارسیان شما آمده، متفاوت باشد."
+
+#: uc_parsian.module:85
+msgid "Parsian SOAP Server Endpoint"
+msgstr "آدرس سرور SOAP بانک پارسیان"
+
+#: uc_parsian.module:86
+msgid "Do not change this, too. Unless you check that technical documentation."
+msgstr "لطفا این مقدار پیش‌فرض را هم تغییر ندهید، مگر اینکه این آدرس با آدرسی که در مستندات بانک پارسیان شما آمده، متفاوت باشد."
+
+#: uc_parsian.module:93
+msgid "Additional Options"
+msgstr "دیگر اختیارات"
+
+#: uc_parsian.module:100
+msgid "Log payment process errors to Watchdog."
+msgstr "ثبت خطا توسط Watchdog"
+
+#: uc_parsian.module:101
+msgid "If checked, all errors will be logged into Watchdog during the payment process."
+msgstr "در صورتی که انتخاب شده باشد، تمامی خطاها در هنگام فرآیند پرداخت با استفاده از Watchdog در پایگاه داده ذخیره می‌شود."
+
+#: uc_parsian.module:108
+msgid "Purge failed payment authority codes periodically."
+msgstr "پاکسازی دوره‌ای کد تراکنش‌های ناموفق."
+
+#: uc_parsian.module:109
+msgid "Authority codes of all successfull and failed Parsian payments will be collected. Check this to purge failed ones periodically using Cron."
+msgstr "کد تمامی تراکنش‌های موفق و ناموفق ذخیره می‌شود. در صورتی که مایلید کد تراکنش‌های ناموفق به صورت دوره‌ای با استفاده از Cron پاکسازی شوند این گزینه را انتخاب کنید."
+
+#: uc_parsian.module:142
+msgid "cron"
+msgstr "cron"
+
+#: uc_parsian.module:142
+msgid "Orphan authority records generated by failed Parsian payments has been successfully removed."
+msgstr "کد تراکنش‌های ناموفق به صورت موفقیت آمیز پاکسازی شد."
+
+#: uc_parsian.module:16
+msgid "Order payment request"
+msgstr "درخواست پرداخت سفارش"
+
+#: uc_parsian.module:24
+msgid "Order payment complete"
+msgstr "کامل‌سازی پرداخت سفارش"
+
+#: uc_parsian.info:0
+msgid "Process payments using Parsian Bank gateway."
+msgstr "پردازش پرداخت‌ها از طریق دروازه الکترونیکی بانک پارسیان."
+
+#: uc_parsian.info:0
+msgid "Ubercart - payment"
+msgstr "Ubercart - پرداخت"
+
