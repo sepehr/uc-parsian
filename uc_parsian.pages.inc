@@ -14,7 +14,7 @@ function uc_parsian_callback_request() {
   global $base_root;
   $order_id = intval($_SESSION['cart_order']);
   $order = uc_order_load($order_id);
-  
+
   // Preparing for SOAP call.
   $soap_params = array(
     'status' => 1,
@@ -25,7 +25,7 @@ function uc_parsian_callback_request() {
     'pin' => variable_get('uc_parsian_auth_pin', ''),
   );
   $soap_results = _uc_parsian_soap_call('PinPaymentRequest', $soap_params);
-  
+
   // Checking SOAP call errors.
   if ($soap_results['#error'] !== FALSE || empty($soap_results['#return']['authority']) || $soap_results['#return']['status'] != 0) {
     _uc_parsian_log_error(t('Could not request pin payment. Status: @code',
