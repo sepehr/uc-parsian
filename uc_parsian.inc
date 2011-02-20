@@ -44,8 +44,8 @@ function uc_parsian_callback_request() {
   $record->created = time();
   drupal_write_record('uc_payment_parsian', $record);
 
+  // Run into that.
   drupal_goto($gateway . '?' . http_build_query(array('au' => $authority)));
-  exit();
 }
 
 
@@ -138,13 +138,11 @@ function _uc_parsian_order_finalize($order, $authority, $cart_id) {
   $complete_page = variable_get('uc_cart_checkout_complete_page', FALSE);
   if ($complete_page) {
     drupal_goto($complete_page);
-    exit();
   }
 
   // Manually redirect if there were no complete page set.
   drupal_set_message($checkout_message);
   drupal_goto('cart');
-  exit();
 }
 
 /**
@@ -259,7 +257,6 @@ function _uc_parsian_log_error($message, $redirect = 'cart/checkout') {
   // Redirect if necessary.
   if ($redirect) {
     drupal_goto($redirect);
-    exit();
   }
 }
 
