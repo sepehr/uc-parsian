@@ -3,7 +3,7 @@
 
 /**
  * @file
- * Ubercart Parsian payment menu callbacks.
+ * Contains Ubercart Parsian payment menu callbacks & internal helpers.
  */
 
 /**
@@ -32,18 +32,18 @@ function uc_parsian_callback_request() {
       array('@code' => _uc_parsian_error_translate($soap_results['#return']['status']),)
     ));
   }
-  
+
   // Saving SOAP results, redirecting to Parsian Payment gateway.
   $authority = $soap_results['#return']['authority'];
   $gateway = variable_get('uc_parsian_gateway', 'https://www.pec24.com/pecpaymentgateway/');
-  
+
   // Store authority code for future validations.
   $record = new stdClass();
   $record->oid = $order_id;
   $record->authority = $authority;
   $record->created = time();
   drupal_write_record('uc_payment_parsian', $record);
-  
+
   drupal_goto($gateway . '?' . http_build_query(array('au' => $authority)));
   exit();
 }
@@ -55,22 +55,22 @@ function uc_parsian_callback_request() {
 function uc_parsian_callback_complete($cart_id = 0) {
   $status = (int) $_REQUEST['rs'];
   $authority = (int) $_REQUEST['au'];
-  
+
   // Checking authority/status availability and validatability.
   if (!isset($status, $authority) || !_uc_parsian_authority_verify($authority)) {
     _uc_parsian_log_error(t('Could not recieve valid authorities and status codes from Parsian bank. Operation cancelled.'));
   }
-  
+
   // When an order status is not in "in_checkout" state,
   // do not validate the payment by sending an enquiry to the bank.
   $order = _uc_parsian_order_get($authority);
   if ($order === FALSE || uc_order_status_data($order->order_status, 'state') != 'in_checkout') {
     // Delete the orphan failed authority record.
     _uc_parsian_authority_delete($authority);
-    
+
     _uc_parsian_log_error(t('The order status is not in checkout. You are not authorized to checkout this order.'));
   }
-    
+
   // Parsian payment enquiry.
   $soap_params = array(
     'status' => $status,
@@ -78,17 +78,17 @@ function uc_parsian_callback_complete($cart_id = 0) {
     'pin' => variable_get('uc_parsian_auth_pin', ''),
   );
   $soap_results = _uc_parsian_soap_call('PinPaymentEnquiry', $soap_params);
-  
+
   // Checking SOAP enquiry call results for errors.
   if ($soap_results['#error'] !== FALSE || $soap_results['#return']['status'] != 0) {
     // Delete the orphan failed authority record.
     _uc_parsian_authority_delete($authority);
-      
+
     _uc_parsian_log_error(t('Could not validate your payment, Enquiry failed. Status: @code',
       array('@code' => _uc_parsian_error_translate($soap_results['#return']['status']),)
     ));
   }
-  
+
   // If we're here, the customer's payment was successfull. Finalizing..
   _uc_parsian_order_finalize($order, $authority, $cart_id);
 }
@@ -106,7 +106,7 @@ function uc_parsian_callback_complete($cart_id = 0) {
 function _uc_parsian_order_finalize($order, $authority, $cart_id) {
   // Mark the payment authority record as valid.
   _uc_parsian_authority_validate($authority);
-  
+
   // Enter payment info alongside a comment.
   $payment_comment = t('Total amount of !amount has been successfully paid via !method by the customer. Payment transaction number is !authority.',
     array(
@@ -116,31 +116,31 @@ function _uc_parsian_order_finalize($order, $authority, $cart_id) {
     )
   );
   uc_payment_enter($order->order_id, 'parsian', $order->order_total, 0, array('authority' => $authority), $payment_comment);
-  
+
   // Empty the cart.
   uc_cart_empty($cart_id);
-  
+
   // Update the status and save the order.
   $order->order_status = 'payment_received';
   uc_order_save($order);
-  
+
   // Add order comments for both the customer and admin.
   uc_order_comment_save($order->order_id, 0, $payment_comment, 'admin');
   uc_order_comment_save($order->order_id, 0, t('The price has been successfully paid for this order.'), 'order', $order->order_status, TRUE);
-      
+
   // Do the final housekeepings, get the checkout message.
   $checkout_message = uc_cart_complete_sale($order, variable_get('uc_new_customer_login', FALSE));
-  
+
   // Let the user know his Parsian bank transaction number.
   drupal_set_message(t('Your Parsian bank payment transaction number is !authority.', array('!authority' => $authority)));
-  
+
   // Redirect user to order complete page.
   $complete_page = variable_get('uc_cart_checkout_complete_page', FALSE);
   if ($complete_page) {
     drupal_goto($complete_page);
     exit();
   }
-  
+
   // Manually redirect if there were no complete page set.
   drupal_set_message($checkout_message);
   drupal_goto('cart');
@@ -161,7 +161,7 @@ function _uc_parsian_order_get($authority) {
   if (!$oid) {
     return FALSE;
   }
-  
+
   return uc_order_load($oid);
 }
 
@@ -223,7 +223,7 @@ function _uc_parsian_soap_call($soap_method, $soap_params, $soap_options = NULL)
       'use' => 'encoded',
     );
   }
-  
+
   // Getting a DrupalSoapClient instance.
   $soap_server = variable_get('uc_parsian_soap_server', 'https://www.pec24.com/pecpaymentgateway/eshopservice.asmx?wsdl');
   $soap_client = soapclient_init_client($soap_server, TRUE, $soap_options);
@@ -232,7 +232,7 @@ function _uc_parsian_soap_call($soap_method, $soap_params, $soap_options = NULL)
   if (!empty($soap_client['#error'])) {
     _uc_parsian_log_error(t('Could not connect to Parsian webservice.'));
   }
-  
+
   return $soap_client['#return']->call($soap_method, $soap_params);
 }
 
@@ -247,15 +247,15 @@ function _uc_parsian_soap_call($soap_method, $soap_params, $soap_options = NULL)
  */
 function _uc_parsian_log_error($message, $redirect = 'cart/checkout') {
   $watchdog_log = variable_get('uc_parsian_watchdog_log', TRUE);
-  
+
   // Display error to the end user.
   drupal_set_message($message, 'error');
-  
+
   // Log to Watchdog if configured so.
   if ($watchdog_log) {
     watchdog('uc_parsian', $message, array(), WATCHDOG_ERROR);
   }
-  
+
   // Redirect if necessary.
   if ($redirect) {
     drupal_goto($redirect);
@@ -277,13 +277,13 @@ function _uc_parsian_error_translate($code) {
     case 20:
     case 22:
       return $code . ' - ' . t('Invalid PIN or IP.');
-    
+
     case 30:
       return $code . ' - ' . t('The operation has been done previously.');
-    
+
     case 34:
       return $code . ' - ' . t('Invalid transaction number.');
-    
+
     default:
       return $code . ' - ' . t('Unknown status code. Refer to your technical documentation or contact Parsian bank support.');
   }

@@ -3,7 +3,7 @@
 
 /**
  * @file
- * Ubercart Parsian payment hooks.
+ * Contains Ubercart Parsian payment's necessary hooks & callbacks.
  */
 
 /**
@@ -11,23 +11,23 @@
  */
 function uc_parsian_menu() {
   $items = array();
-  
+
   $items['cart/parsian/request'] = array(
     'title' => 'Order payment request',
     'page callback' => 'uc_parsian_callback_request',
-    'access callback' => 'uc_parsian_callback_request_access',    
+    'access callback' => 'uc_parsian_callback_request_access',
     'file' => 'uc_parsian.pages.inc',
     'type' => MENU_CALLBACK,
   );
-  
+
   $items['cart/parsian/complete'] = array(
     'title' => 'Order payment complete',
     'page callback' => 'uc_parsian_callback_complete',
-    'access callback' => 'uc_parsian_callback_complete_access',    
+    'access callback' => 'uc_parsian_callback_complete_access',
     'file' => 'uc_parsian.pages.inc',
     'type' => MENU_CALLBACK,
   );
-  
+
   return $items;
 }
 
@@ -50,7 +50,7 @@ function uc_parsian_payment_method() {
     'checkout' => TRUE,
     'no_gateway' => TRUE,
   );
-  
+
   return $methods;
 }
 
@@ -63,7 +63,7 @@ function uc_payment_method_parsian($op, &$arg1) {
   switch ($op) {
     case 'settings':
       $form = array();
-      
+
       $form['uc_parsian_auth_pin'] = array(
         '#type' => 'textfield',
         '#title' => t('Parsian Authentication Pin'),
@@ -71,7 +71,7 @@ function uc_payment_method_parsian($op, &$arg1) {
         '#default_value' => variable_get('uc_parsian_auth_pin', ''),
         '#required' => TRUE,
       );
-      
+
       $form['uc_parsian_gateway'] = array(
         '#type' => 'textfield',
         '#title' => t('Parsian Gateway Address'),
@@ -79,7 +79,7 @@ function uc_payment_method_parsian($op, &$arg1) {
         '#default_value' => variable_get('uc_parsian_gateway', 'https://www.pec24.com/pecpaymentgateway/'),
         '#required' => TRUE,
       );
-      
+
       $form['uc_parsian_soap_server'] = array(
         '#type' => 'textfield',
         '#title' => t('Parsian SOAP Server Endpoint'),
@@ -87,22 +87,22 @@ function uc_payment_method_parsian($op, &$arg1) {
         '#default_value' => variable_get('uc_parsian_soap_server', 'https://www.pec24.com/pecpaymentgateway/eshopservice.asmx?wsdl'),
         '#required' => TRUE,
       );
-      
+
       $form['uc_parsian_additional_options'] = array(
         '#type' => 'fieldset',
         '#title' => t('Additional Options'),
         '#collapsible' => TRUE,
         '#collapsed' => TRUE,
-      );            
-      
+      );
+
       $form['uc_parsian_additional_options']['uc_parsian_watchdog_log'] = array(
         '#type' => 'checkbox',
         '#title' => t('Log payment process errors to Watchdog.'),
         '#description' => t('If checked, all errors will be logged into Watchdog during the payment process.'),
         '#default_value' => variable_get('uc_parsian_watchdog_log', 1),
         '#return_value' => TRUE,
-      );            
-      
+      );
+
       $form['uc_parsian_additional_options']['uc_parsian_cron_purge'] = array(
         '#type' => 'checkbox',
         '#title' => t('Purge failed payment authority codes periodically.'),
@@ -110,7 +110,7 @@ function uc_payment_method_parsian($op, &$arg1) {
         '#default_value' => variable_get('uc_parsian_cron_purge', 1),
         '#return_value' => TRUE,
       );
-      
+
       return $form;
   }
 }
@@ -124,7 +124,7 @@ function uc_parsian_form_alter(&$form, &$form_state, $form_id) {
   $order_id = intval($_SESSION['cart_order']);
   if ($form_id == 'uc_cart_checkout_review_form' && $order_id > 0) {
     $order = uc_order_load($order_id);
-        
+
     if ($order->payment_method == 'parsian') {
       $form['#action'] = url('cart/parsian/request');
     }
@@ -146,7 +146,7 @@ function uc_parsian_cron() {
 /**
  * Implementation of hook_ucga_display().
  *
- * Ubercart Google Analytics to display 
+ * Ubercart Google Analytics to display
  * the e-commerce JS on the order completion page.
  */
 function uc_parsian_ucga_display() {
