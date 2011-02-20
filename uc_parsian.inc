@@ -108,41 +108,28 @@ function _uc_parsian_order_finalize($order, $authority, $cart_id) {
   _uc_parsian_authority_validate($authority);
 
   // Enter payment info alongside a comment.
-  $payment_comment = t('Total amount of !amount has been successfully paid via !method by the customer. Payment transaction number is !authority.',
+  $comment = t('Total amount of "!amount" has been successfully paid via !method. Payment transaction number is "!authority".',
     array(
       '!amount' => uc_currency_format($order->order_total, TRUE, TRUE, NULL),
       '!method' => ucwords($order->payment_method),
       '!authority' => $authority,
     )
   );
-  uc_payment_enter($order->order_id, 'parsian', $order->order_total, 0, array('authority' => $authority), $payment_comment);
-
-  // Empty the cart.
-  uc_cart_empty($cart_id);
-
-  // Update the status and save the order.
-  $order->order_status = 'payment_received';
-  uc_order_save($order);
-
-  // Add order comments for both the customer and admin.
-  uc_order_comment_save($order->order_id, 0, $payment_comment, 'admin');
-  uc_order_comment_save($order->order_id, 0, t('The price has been successfully paid for this order.'), 'order', $order->order_status, TRUE);
-
-  // Do the final housekeepings, get the checkout message.
-  $checkout_message = uc_cart_complete_sale($order, variable_get('uc_new_customer_login', FALSE));
-
-  // Let the user know his Parsian bank transaction number.
-  drupal_set_message(t('Your Parsian bank payment transaction number is !authority.', array('!authority' => $authority)));
-
-  // Redirect user to order complete page.
-  $complete_page = variable_get('uc_cart_checkout_complete_page', FALSE);
-  if ($complete_page) {
-    drupal_goto($complete_page);
-  }
-
-  // Manually redirect if there were no complete page set.
-  drupal_set_message($checkout_message);
-  drupal_goto('cart');
+  // Enter payment for the order.
+  uc_payment_enter($order->order_id, $order->payment_method, $order->order_total, 0, array('authority' => $authority), $comment);
+  // Let her know the reference number.
+  drupal_set_message($comment);
+  // Empty user cart, Update order status, register customer if required
+  // and log her in. Also get the themed output of order completion page.
+  $message = uc_cart_complete_sale($order, TRUE);
+  // Notify user about order completion.
+  drupal_set_message($message);
+  // Log comments to order, for both customer & admin.
+  // Needs to be called after uc_cart_complete_sale().
+  uc_order_comment_save($order->order_id, 0, $comment);
+  uc_order_comment_save($order->order_id, 0, $comment, 'order', uc_order_state_default('post_checkout'), TRUE);
+  // And redirect to the proper end!
+  drupal_goto(variable_get('uc_cart_checkout_complete_page', 'cart'));
 }
 
 /**
@@ -159,7 +146,6 @@ function _uc_parsian_order_get($authority) {
   if (!$oid) {
     return FALSE;
   }
-
   return uc_order_load($oid);
 }
 
@@ -225,7 +211,6 @@ function _uc_parsian_soap_call($soap_method, $soap_params, $soap_options = NULL)
   // Getting a DrupalSoapClient instance.
   $soap_server = variable_get('uc_parsian_soap_server', 'https://www.pec24.com/pecpaymentgateway/eshopservice.asmx?wsdl');
   $soap_client = soapclient_init_client($soap_server, TRUE, $soap_options);
-
   // Checking instantiation errors.
   if (!empty($soap_client['#error'])) {
     _uc_parsian_log_error(t('Could not connect to Parsian webservice.'));
@@ -248,12 +233,10 @@ function _uc_parsian_log_error($message, $redirect = 'cart/checkout') {
 
   // Display error to the end user.
   drupal_set_message($message, 'error');
-
   // Log to Watchdog if configured so.
   if ($watchdog_log) {
     watchdog('uc_parsian', $message, array(), WATCHDOG_ERROR);
   }
-
   // Redirect if necessary.
   if ($redirect) {
     drupal_goto($redirect);
