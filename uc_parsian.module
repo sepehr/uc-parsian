@@ -15,7 +15,7 @@ function uc_parsian_menu() {
     'title' => 'Order payment request',
     'page callback' => 'uc_parsian_callback_request',
     'access callback' => 'uc_parsian_callback_request_access',
-    'file' => 'uc_parsian.pages.inc',
+    'file' => 'uc_parsian.inc',
     'type' => MENU_CALLBACK,
   );
 
@@ -23,7 +23,7 @@ function uc_parsian_menu() {
     'title' => 'Order payment complete',
     'page callback' => 'uc_parsian_callback_complete',
     'access callback' => 'uc_parsian_callback_complete_access',
-    'file' => 'uc_parsian.pages.inc',
+    'file' => 'uc_parsian.inc',
     'type' => MENU_CALLBACK,
   );
 
