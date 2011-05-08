@@ -5,6 +5,7 @@
  * Contains Ubercart Parsian payment menu callbacks & internal helpers.
  *
  * @todo
+ *   - Code review required.
  *   - Improve verification callback.
  */
 
