@@ -34,15 +34,17 @@ function uc_parsian_menu() {
  * Implements hook_payment_method().
  *
  * @see uc_payment_method_parsian()
+ *
+ * @todo
+ *   Add optional logo inclusion.
  */
 function uc_parsian_payment_method() {
-  global $base_url;
-  $logo = $base_url . '/' . drupal_get_path('module', 'uc_parsian') . '/uc_parsian.png';
+  $methods = array();
 
   $methods[] = array(
     'id' => 'parsian',
-    'name' => t('Parsian Bank'),
-    'title' => theme('image', $logo, '', t('Pay via Parsian Bank'), array('height' => 25, 'width' => 25), FALSE) . t('Parsian Bank'),
+    'name'  => t('Parsian Bank'),
+    'title' => t('Parsian Bank'),
     'desc' => t('Redirect to Parsian bank to pay by your debit card.'),
     'callback' => 'uc_payment_method_parsian',
     'weight' => 1,
@@ -62,7 +64,7 @@ function uc_payment_method_parsian($op, &$arg1) {
   switch ($op) {
     case 'settings':
       $form = array();
-
+      // Authority PIN:
       $form['uc_parsian_auth_pin'] = array(
         '#type' => 'textfield',
         '#title' => t('Parsian Authentication Pin'),
@@ -70,7 +72,7 @@ function uc_payment_method_parsian($op, &$arg1) {
         '#default_value' => variable_get('uc_parsian_auth_pin', ''),
         '#required' => TRUE,
       );
-
+      // Gateway address:
       $form['uc_parsian_gateway'] = array(
         '#type' => 'textfield',
         '#title' => t('Parsian Gateway Address'),
@@ -78,7 +80,7 @@ function uc_payment_method_parsian($op, &$arg1) {
         '#default_value' => variable_get('uc_parsian_gateway', 'https://www.pec24.com/pecpaymentgateway/'),
         '#required' => TRUE,
       );
-
+      // SOAP endpoint address:
       $form['uc_parsian_soap_server'] = array(
         '#type' => 'textfield',
         '#title' => t('Parsian SOAP Server Endpoint'),
@@ -93,7 +95,7 @@ function uc_payment_method_parsian($op, &$arg1) {
         '#collapsible' => TRUE,
         '#collapsed' => TRUE,
       );
-
+      // Watchdog log option:
       $form['uc_parsian_additional_options']['uc_parsian_watchdog_log'] = array(
         '#type' => 'checkbox',
         '#title' => t('Log payment process errors to Watchdog.'),
@@ -101,7 +103,7 @@ function uc_payment_method_parsian($op, &$arg1) {
         '#default_value' => variable_get('uc_parsian_watchdog_log', 1),
         '#return_value' => TRUE,
       );
-
+      // Cron purge option:
       $form['uc_parsian_additional_options']['uc_parsian_cron_purge'] = array(
         '#type' => 'checkbox',
         '#title' => t('Purge failed payment authority codes periodically.'),
@@ -116,14 +118,12 @@ function uc_payment_method_parsian($op, &$arg1) {
 
 /**
  * Implements hook_form_alter().
- *
- * Alters the "action" attribute of the order review form.
  */
 function uc_parsian_form_alter(&$form, &$form_state, $form_id) {
   $order_id = intval($_SESSION['cart_order']);
   if ($form_id == 'uc_cart_checkout_review_form' && $order_id > 0) {
     $order = uc_order_load($order_id);
-
+    // Alter review form's action, only if the payment method is Parsian.
     if ($order->payment_method == 'parsian') {
       $form['#action'] = url('cart/parsian/request');
     }

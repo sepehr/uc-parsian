@@ -2,7 +2,7 @@
 
 /**
  * @file
- * Ubercart Parsian payment un/installation hooks.
+ * Contains Ubercart Parsian payment un/installation hooks.
  */
 
 /**
@@ -12,7 +12,7 @@ function uc_parsian_schema() {
   $schema = array();
 
   $schema['uc_payment_parsian'] = array(
-    'description' => 'Table for storing Parsian payment authorities.',
+    'description' => 'Stores Parsian payment authorities.',
     'fields' => array(
       'oid' => array(
         'description' => 'Order identifier.',
@@ -53,11 +53,11 @@ function uc_parsian_schema() {
  * Implements hook_install().
  */
 function uc_parsian_install() {
+  // Install database schema:
   drupal_install_schema('uc_parsian');
+  // Notify user:
   drupal_set_message(st('Ubercart Parsian payment has been installed. Please set your settings in <a href="!link">configuration page</a>.',
-    array(
-      '!link' => url('admin/store/settings/payment/edit/methods'),
-    )
+    array('!link' => url('admin/store/settings/payment/edit/methods'))
   ));
 }
 
@@ -66,7 +66,9 @@ function uc_parsian_install() {
  * Implements hook_uninstall().
  */
 function uc_parsian_uninstall() {
+  // Remove database schema:
   drupal_uninstall_schema('uc_parsian');
+  // Remove gateway settings:
   variable_del('uc_parsian_gateway');
   variable_del('uc_parsian_auth_pin');
   variable_del('uc_parsian_soap_server');
