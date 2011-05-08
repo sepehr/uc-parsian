@@ -37,5 +37,5 @@ Installation
 
 Author and Maintainer
 =====================
-Sepehr Lajevardi
+Sepehr Lajevardi (http://drupal.org/user/668010)
 
