@@ -1,4 +1,3 @@
-; $Id$
 name = "Parsian Bank"
 description = "Process payments using Parsian Bank gateway."
 core = 6.x

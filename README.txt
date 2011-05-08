@@ -1,8 +1,6 @@
-// $Id$
-
 Description
 ===========
-Ubercart Parsian Payment is a module that defines a new "Payment Method" for an Ubercart 2.x powered 
+Ubercart Parsian Payment is a module that defines a new "Payment Method" for an Ubercart 2.x powered
 website to process its online payments through the [Parsian Bank](http://parsian-bank.com/) gateway.
 
 
@@ -24,12 +22,12 @@ Installation
 ============
 1. Install [Ubercart 2.x](http://drupal.org/project/ubercart) if not yet installed:
   - Enable "Payment" module under "Ubercart - core (optional)" and all its dependencies.
-  
+
 2. Install & enable [SOAP Client](http://drupal.org/project/soapclient).
   - Go to admin/settings/soapclient.
   - Under "Active SOAP Library" check the "nuSOAP" option.
   - Leave other options as default.
-  
+
 3. Install and enable [Ubercart Parsian Payment](http://drupal.org/project/uc_parsian)
   - Go to admin/store/settings/payment/edit/methods.
   - Check "Parsian Bank" under "Payment methods" block.
@@ -40,3 +38,4 @@ Installation
 Author and Maintainer
 =====================
 Sepehr Lajevardi
+

@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 /**
  * @file
@@ -11,7 +10,7 @@
  */
 function uc_parsian_schema() {
   $schema = array();
-  
+
   $schema['uc_payment_parsian'] = array(
     'description' => 'Table for storing Parsian payment authorities.',
     'fields' => array(
@@ -46,7 +45,7 @@ function uc_parsian_schema() {
       'oid_authority' => array('oid', 'authority'),
     ),
   );
-  
+
   return $schema;
 }
 
