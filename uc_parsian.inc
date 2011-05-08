@@ -9,7 +9,12 @@
  */
 
 /**
- * Order payment request page.
+ * Order payment request callback.
+ *
+ * Requests authority code from Parsian bank and
+ * locally stores the code, so we can check back later.
+ * Also pushes the customer into the bank gateway in order
+ * to pay the order price.
  */
 function uc_parsian_callback_request() {
   global $base_root;
@@ -52,7 +57,14 @@ function uc_parsian_callback_request() {
 
 
 /**
- * Order payment completion page.
+ * Order payment completion callback.
+ *
+ * Checks the environment, verifies and validates the transaction if possible.
+ *
+ * @param $cart_id
+ *   The cart identifier as per required by _uc_parsian_order_finalize() helper.
+ *
+ * @see _uc_parsian_order_finalize()
  */
 function uc_parsian_callback_complete($cart_id = 0) {
   $status = (int) $_REQUEST['rs'];
