@@ -258,17 +258,17 @@ function _uc_parsian_error_translate($code) {
       ));
 
     case 30:
-      return t('@code - The operation has been done previously.'array(
+      return t('@code - The operation has been done previously.', array(
         '@code' => $code,
       ));
 
     case 34:
-      return t('@code - Invalid transaction number.'array(
+      return t('@code - Invalid transaction number.', array(
         '@code' => $code,
       ));
 
     default:
-      return t('@code - Unknown status code. Refer to your technical documentation or contact Parsian bank support.'array(
+      return t('@code - Unknown status code. Refer to your technical documentation or contact Parsian bank support.', array(
         '@code' => $code,
       ));
   }
