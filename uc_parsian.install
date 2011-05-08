@@ -6,7 +6,7 @@
  */
 
 /**
- * Implementation of hook_schema().
+ * Implements hook_schema().
  */
 function uc_parsian_schema() {
   $schema = array();
@@ -50,7 +50,7 @@ function uc_parsian_schema() {
 }
 
 /**
- * Implementation of hook_install().
+ * Implements hook_install().
  */
 function uc_parsian_install() {
   drupal_install_schema('uc_parsian');
@@ -63,7 +63,7 @@ function uc_parsian_install() {
 
 
 /**
- * Implementation of hook_uninstall().
+ * Implements hook_uninstall().
  */
 function uc_parsian_uninstall() {
   drupal_uninstall_schema('uc_parsian');
