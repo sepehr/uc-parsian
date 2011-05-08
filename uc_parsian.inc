@@ -31,7 +31,7 @@ function uc_parsian_callback_request() {
   // Checking SOAP call errors.
   if ($soap_results['#error'] !== FALSE || empty($soap_results['#return']['authority']) || $soap_results['#return']['status'] != 0) {
     _uc_parsian_log_error(t('Could not request pin payment. Status: @code',
-      array('@code' => _uc_parsian_error_translate($soap_results['#return']['status']),)
+      array('@code' => _uc_parsian_error_translate($soap_results['#return']['status']))
     ));
   }
 
@@ -85,7 +85,7 @@ function uc_parsian_callback_complete($cart_id = 0) {
     // Delete the orphan failed authority record.
     _uc_parsian_authority_delete($authority);
     _uc_parsian_log_error(t('Could not validate your payment, Enquiry failed. Status: @code',
-      array('@code' => _uc_parsian_error_translate($soap_results['#return']['status']),)
+      array('@code' => _uc_parsian_error_translate($soap_results['#return']['status']))
     ));
   }
 
